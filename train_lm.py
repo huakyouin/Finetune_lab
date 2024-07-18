@@ -10,7 +10,7 @@ from peft import get_peft_model, LoraConfig, TaskType, PeftModel,PeftConfig
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 from transformers.trainer_pt_utils import LabelSmoother
 
-from utils.token_to_inputs import *
+from utils.lm_input_preprocessor import *
 
 IGNORE_TOKEN_ID = LabelSmoother.ignore_index
     

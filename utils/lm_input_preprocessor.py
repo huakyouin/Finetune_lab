@@ -2,15 +2,12 @@
 序列转模型input
 
 This module contains useful functions for： 
-    Preprocessing data for different model bases.
+    Preprocessing inputs for different model bases.
 
 Author: huakyouin
 
-Usage:
-    import data_utils
-
-    # Example usage:
-    preprocessed_data = data_utils.preprocess_data_for_qwen(raw_data)
+Usage: (import this file first)
+    preprocessed_data = preprocess_data_for_qwen(raw_data)
 """
 import transformers
 import torch
@@ -18,7 +15,7 @@ from transformers.trainer_pt_utils import LabelSmoother
 from datasets import Dataset
 
 
-## llama词元序列化
+## llama词元处理
 def preprocess_data_for_llama(
     sources,
     tokenizer: transformers.PreTrainedTokenizer,
@@ -47,7 +44,7 @@ def preprocess_data_for_llama(
     })
 
 
-## qwen词元序列化
+## qwen词元处理
 def preprocess_data_for_qwen(
     sources,
     tokenizer: transformers.PreTrainedTokenizer,
