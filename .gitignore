@@ -1,3 +1,4 @@
 # Ignore data and models folders
 data/
 models/
+ckpts/

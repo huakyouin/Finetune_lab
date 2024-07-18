@@ -1,5 +1,5 @@
 """
-Data Utilities
+序列转模型input
 
 This module contains useful functions for： 
     Preprocessing data for different model bases.
@@ -18,7 +18,7 @@ from transformers.trainer_pt_utils import LabelSmoother
 from datasets import Dataset
 
 
-## llama次元序列化（重构后尚未验证）
+## llama词元序列化
 def preprocess_data_for_llama(
     sources,
     tokenizer: transformers.PreTrainedTokenizer,

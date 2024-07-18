@@ -72,7 +72,7 @@ for csv_file in tqdm(csv_files, desc="Overall Progress"):
 
 
 
-# use case:
-#  CUDA_VISIBLE_DEVICES=2,3 python analysis_task1.py
+# usage:
+# CUDA_VISIBLE_DEVICES=2,3 python analysis_task1.py
     
     
