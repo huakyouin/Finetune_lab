@@ -48,8 +48,8 @@
 
 ```bash
 export HF_HUB_ENABLE_HF_TRANSFER=1
-huggingface-cli download --repo-type dataset --resume-download Maciel/FinCUGE-Instruction  --local-dir data --local-dir-use-symlinks False
-huggingface-cli download --repo-type dataset --resume-download silk-road/alpaca-data-gpt4-chinese  --local-dir data --local-dir-use-symlinks False
+huggingface-cli download --repo-type dataset --resume-download Maciel/FinCUGE-Instruction  --local-dir data/findata --local-dir-use-symlinks False
+huggingface-cli download --repo-type dataset --resume-download silk-road/alpaca-data-gpt4-chinese  --local-dir data/gpt4data --local-dir-use-symlinks False
 ```
 
 #### 下载模型
@@ -67,6 +67,11 @@ from modelscope import snapshot_download
 model_id = 'qwen/Qwen-7B-Chat'          
 model_dir = snapshot_download(model_id, cache_dir='./models/')
 quit()
+```
+or huggingface
+```bash
+export HF_HUB_ENABLE_HF_TRANSFER=1
+huggingface-cli download --repo-type model --resume-download google-bert/bert-base-chinese  --local-dir models --local-dir-use-symlinks False
 ```
 
 ### 模型训练
