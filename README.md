@@ -39,7 +39,12 @@
 
    对于更高版本：
    ```bash
-   conda env create -f environment.yml
+    conda create -n sft python=3.10 notebook
+    activate sft
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    export PIPR='https://mirrors.aliyun.com/pypi/simple/'
+    pip install transformers accelerate trl bitsandbytes deepspeed hf_transfer modelscope peft transformers_stream_generator tiktoken
+    pip install scikit-learn pandas numpy matplotlib
    ```
 
 ### 数据与模型准备
