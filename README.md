@@ -6,18 +6,17 @@
 ## 目录结构
 
 - **datasets**: 存放训练和测试数据集。
-- **models**: 保存训练好的模型权重文件。
+- **base**: 存放从别处下载的模型底座。
+- **models**: 保存自定义的模型网络。
 - **outputs**: 存放训练输出结果，包括日志和生成的模型。
-- **settings**: 配置文件夹，包含不同训练任务的JSON配置文件。
+- **examples**: 训练以及调用实例。
+- **utils**: 工具文件夹，包含数据处理和辅助脚本。
+- **README.md**: 项目说明文件。
+- **train_lm.py**: 主训练llm的脚本。
+- **settings**: 存放配合train文件使用的JSON配置文件，相当于记录不同配方。
   - `lora_llama_course1.json`: 用于第一个LLaMA模型微调的配置文件。
   - `lora_llama_course2.json`: 用于第二个LLaMA模型微调的配置文件。
   - `lora_qwen_course1.json`: 用于QWEN模型微调的配置文件。
-- **utils**: 工具文件夹，包含数据处理和辅助脚本。
-  - `data_preprocess.py`: 数据处理工具脚本。
-  - `news_collecting.py`: 新闻收集脚本。
-- **inference_example.ipynb**: 推理示例Jupyter Notebook。
-- **README.md**: 项目说明文件。
-- **train_lm.py**: 主训练llm的脚本。
 
 ## 使用方法
 
