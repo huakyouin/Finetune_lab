@@ -1,5 +1,4 @@
 # Ignore data and models folders
 data/
 base/
-ckpts/
-*.pt
+outputs/

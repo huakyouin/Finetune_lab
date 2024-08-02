@@ -1,5 +1,9 @@
+'''
+用于股票个股资讯新闻爬虫的脚本
+
 ## Note selenium>4.6, otherwise need to install webdirver yourself
-## used for collecting stock news
+
+'''
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By

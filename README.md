@@ -12,11 +12,8 @@
 - **examples**: 训练以及调用实例。
 - **utils**: 工具文件夹，包含数据处理和辅助脚本。
 - **README.md**: 项目说明文件。
-- **train_lm.py**: 主训练llm的脚本。
+- **sft.py**: 对大模型进行sft的脚本，便于不同超参训练。
 - **settings**: 存放配合train文件使用的JSON配置文件，相当于记录不同配方。
-  - `lora_llama_course1.json`: 用于第一个LLaMA模型微调的配置文件。
-  - `lora_llama_course2.json`: 用于第二个LLaMA模型微调的配置文件。
-  - `lora_qwen_course1.json`: 用于QWEN模型微调的配置文件。
 
 ## 使用方法
 
@@ -25,7 +22,7 @@
 
 2. 安装所需依赖:
 
-   注：cuda<11.4请按以下安装步骤配置。
+   对于cuda<11.4：
    ```bash
     conda create -n sft python=3.10 notebook
     activate sft
@@ -42,21 +39,30 @@
     activate sft
     pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
     export PIPR='https://mirrors.aliyun.com/pypi/simple/'
-    pip install transformers accelerate trl bitsandbytes deepspeed hf_transfer modelscope peft transformers_stream_generator tiktoken
-    pip install scikit-learn pandas numpy matplotlib
+    pip install transformers accelerate trl bitsandbytes deepspeed  peft transformers_stream_generator tiktoken
+    pip install scikit-learn pandas numpy matplotlib 
    ```
 
 ### 数据与模型准备
 
-#### 下载数据集
+#### 从hugging face下载
 
+下载数据集示例如下：
 ```bash
-export HF_HUB_ENABLE_HF_TRANSFER=1
-huggingface-cli download --repo-type dataset --resume-download Maciel/FinCUGE-Instruction  --local-dir data/findata --local-dir-use-symlinks False
-huggingface-cli download --repo-type dataset --resume-download silk-road/alpaca-data-gpt4-chinese  --local-dir data/gpt4data --local-dir-use-symlinks False
+    pip install hf_transfer
+    export HF_HUB_ENABLE_HF_TRANSFER=1
+    huggingface-cli download --repo-type dataset --resume-download Maciel/FinCUGE-Instruction  --local-dir data/findata --local-dir-use-symlinks False
+    huggingface-cli download --repo-type dataset --resume-download silk-road/alpaca-data-gpt4-chinese  --local-dir data/gpt4data --local-dir-use-symlinks False
+```
+下载模型：
+```bash
+    export HF_HUB_ENABLE_HF_TRANSFER=1
+    huggingface-cli download --repo-type model --resume-download google-bert/bert-base-chinese  --local-dir base/bert --local-dir-use-symlinks False
+    huggingface-cli download --repo-type model --resume-download BAAI/bge-small-zh-v1.5  --local-dir base/bge_small --local-dir-use-symlinks False
 ```
 
-#### 下载模型
+
+#### 从魔搭社区下载
 
 魔搭社区上查找模型路径，示例如下：
 - 'LLM-Research/Meta-Llama-3-8B'
@@ -64,26 +70,27 @@ huggingface-cli download --repo-type dataset --resume-download silk-road/alpaca-
 - "ChineseAlpacaGroup/llama-3-chinese-8b-instruct-lora"  
 - 'zhuangxialie/Llama3_Chinese_Sft'
 - 'qwen/Qwen-7B-Chat'
+- 'qwen/Qwen2-0.5B-Instruct'
+
 
 ```bash
-python
-from modelscope import snapshot_download
-model_id = 'qwen/Qwen-7B-Chat'          
-model_dir = snapshot_download(model_id, cache_dir='./models/')
-quit()
-```
-or huggingface
-```bash
-export HF_HUB_ENABLE_HF_TRANSFER=1
-huggingface-cli download --repo-type model --resume-download google-bert/bert-base-chinese  --local-dir models --local-dir-use-symlinks False
+    pip install -U modelscope
+    modelscope download --model AI-ModelScope/bge-large-zh --local_dir "base/bge"
 ```
 
-### 模型训练
-根据需要修改 `settings` 文件夹中的配置文件，然后运行 `train.py` 进行模型训练:
+
+### 指令集生成
+参考utils/chat_data_precessor.py文件。
+
+### 大模型训练
+首先修改 `settings` 文件夹中的配置文件，然后运行如下代码:
 ```bash
-python train.py --config settings/lora_llama_course1.json
+CUDA_VISIBLE_DEVICES=1,2,3,4 torchrun sft.py --model_path base/qwen/Qwen2-0_5B-Instruct \
+    --data_path data/processed/SFT/FinCUGE \
+    --ckpt_dir outputs/ckpts/qwen2/ \
+    --final_save_path outputs/final/Qwen2-0_5B-instruct-lora 
 ```
 
-### 模型推理
-请参考 `inference_example.ipynb` 文件，按照里面的步骤进行模型推理。
+### Bert类模型训练及各类模型推理
+参考examples文件夹。
 
